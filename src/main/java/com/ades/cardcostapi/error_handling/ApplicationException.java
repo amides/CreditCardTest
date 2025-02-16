@@ -12,11 +12,6 @@ public class ApplicationException  extends RuntimeException implements Exception
     private final String code;
     private final String message;
 
-    public ApplicationException(final ApplicationExceptionReason reason) {
-        this.code = reason.getCode();
-        this.message = reason.getMessage();
-    }
-
     public ApplicationException(final ApplicationExceptionReason reason, final Object... parameters) {
         if (parameters != null) {
             this.message = format(reason.getMessage(), parameters);

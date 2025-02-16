@@ -76,7 +76,7 @@ class CardCostApiIntegrationTests {
         List<ClearingCostRecord> recordsList = clearingCostMatrixCRUDService.getClearingCostRecord();
         assertThat(recordsList).isNotEmpty();
         assertThat(recordsList).hasSize(3);
-        assertThat(recordsList.get(0).getIssuingCountry()).isEqualTo("US");
+        assertThat(recordsList.getFirst().getIssuingCountry()).isEqualTo("US");
     }
 
     @Test

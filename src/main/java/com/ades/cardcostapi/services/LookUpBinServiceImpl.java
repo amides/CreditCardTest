@@ -18,7 +18,7 @@ public class LookUpBinServiceImpl implements LookUpBinService {
 
     public LookUpBinServiceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-        binResponsesMapCache = new HashMap<String, BinResponse>();
+        binResponsesMapCache = new HashMap<>();
     }
 
     @Override

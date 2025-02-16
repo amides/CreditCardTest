@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 @Entity
 @Setter
@@ -23,7 +22,4 @@ public class ClearingCostMatrixDAO implements Serializable {
     private String cardIssuingCountryCode;
 
     private float clearingCost;
-
-    public ClearingCostMatrixDAO(long l, String us, float v) {
-    }
 }

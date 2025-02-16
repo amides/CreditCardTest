@@ -34,9 +34,11 @@ public class ClearingCostMatrixCRUDServiceImpl implements ClearingCostMatrixCRUD
                     "Invalid issuing country: " + clearingCostRecord.getIssuingCountry());
 
         }
+        ClearingCostMatrixDAO clearingCostMatrixDAO = new ClearingCostMatrixDAO();
+        clearingCostMatrixDAO.setClearingCost(clearingCostRecord.getCost());
+        clearingCostMatrixDAO.setCardIssuingCountryCode(clearingCostRecord.getIssuingCountry());
 
-        clearingCostMatrixRepository.save( new ClearingCostMatrixDAO(clearingCostRecord.getIssuingCountry(),
-                                        clearingCostRecord.getCost()));
+        clearingCostMatrixRepository.save(clearingCostMatrixDAO);
     }
 
     @Override
@@ -50,14 +52,17 @@ public class ClearingCostMatrixCRUDServiceImpl implements ClearingCostMatrixCRUD
                     "Invalid issuing country: " + newClearingCostRecord.getIssuingCountry());
         }
 
-        clearingCostMatrixRepository.findById(id)
+
+        clearingCostMatrixRepository.findById(id)//
                 .map(clearingCostMatrixDAO -> {
                     clearingCostMatrixDAO.setCardIssuingCountryCode(newClearingCostRecord.getIssuingCountry());
                     clearingCostMatrixDAO.setClearingCost(newClearingCostRecord.getCost());
                     return clearingCostMatrixRepository.save(clearingCostMatrixDAO);
                 }).orElseGet(() -> {
-                    return clearingCostMatrixRepository.save(new ClearingCostMatrixDAO(newClearingCostRecord.getIssuingCountry(),
-                                                             newClearingCostRecord.getCost()));
+                    ClearingCostMatrixDAO clearingCostMatrixDAO = new ClearingCostMatrixDAO();
+                    clearingCostMatrixDAO.setClearingCost(newClearingCostRecord.getCost());
+                    clearingCostMatrixDAO.setCardIssuingCountryCode(newClearingCostRecord.getIssuingCountry());
+                    return clearingCostMatrixRepository.save(clearingCostMatrixDAO);
                 });
     }
 

@@ -22,10 +22,17 @@ public class CardCostApiApplication {
         return args -> {
             repository.deleteAll();
 
-            repository.save(new ClearingCostMatrixDAO("US", 5.0f));
-            repository.save(new ClearingCostMatrixDAO("GR", 15.0f));
-            repository.save(new ClearingCostMatrixDAO("CA", 550.0f));
-            repository.save(new ClearingCostMatrixDAO("Others", 10.0f));
+            String[] issuingCountries = {"US", "GR", "CA", "Others"};
+            float[] costs = {5.0f, 15.0f, 550.0f, 10.0f};
+
+            for(int i = 0; i < issuingCountries.length; i++)
+            {
+                ClearingCostMatrixDAO dao = new ClearingCostMatrixDAO();
+                dao.setCardIssuingCountryCode(issuingCountries[i]);
+                dao.setClearingCost(costs[i]);
+
+                repository.save(dao);
+            }
         };
 
     }

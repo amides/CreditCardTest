@@ -44,5 +44,15 @@ public class GlobalApiExceptionHandler
         return ResponseEntity.status(ex.getHttpStatus()).body(errorResponseDto);
     }
 
+    @ExceptionHandler({ApplicationException.class})
+    public ResponseEntity<Object> handleCustomUncaughtApplicationException(final ApplicationException ex,
+                                                                           final ServletWebRequest request) {
+        logger.error(ex.getMessage(), request.toString());
 
+        final ErrorResponseDto errorResponseDto = new ErrorResponseDto();
+        errorResponseDto.setMessage(ex.getMessage());
+        errorResponseDto.setCode(ex.getCode());
+
+        return ResponseEntity.badRequest().body(errorResponseDto);
+    }
 }

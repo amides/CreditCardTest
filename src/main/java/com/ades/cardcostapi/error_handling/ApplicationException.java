@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import static java.lang.String.format;
 
+@Getter
+@Setter
 public class ApplicationException  extends RuntimeException implements ExceptionPolicy {
 
     private final String code;
@@ -15,7 +17,6 @@ public class ApplicationException  extends RuntimeException implements Exception
         this.message = reason.getMessage();
     }
 
-
     public ApplicationException(final ApplicationExceptionReason reason, final Object... parameters) {
         if (parameters != null) {
             this.message = format(reason.getMessage(), parameters);
@@ -25,17 +26,6 @@ public class ApplicationException  extends RuntimeException implements Exception
 
         this.code = reason.getCode();
     }
-
-    @Override
-    public String getCode() {
-        return code;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
 
     @Override
     public String getLocalizedMessage() {

@@ -40,7 +40,7 @@ public class LookUpBinServiceImpl implements LookUpBinService {
         String url = "https://lookup.binlist.net/";
         url = url + bin;
 
-        BinResponse binResponse = null;
+        BinResponse binResponse;
 
         try{
             binResponse = restTemplate.getForObject(url, BinResponse.class);

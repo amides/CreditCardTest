@@ -1,16 +1,15 @@
 package com.ades.cardcostapi.domain;
 
+import lombok.*;
 import org.springframework.stereotype.Component;
 
-@Component
-public class PaymentCardCostRequest {
+import java.io.Serializable;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class PaymentCardCostRequest implements Serializable {
+
     private String card_number;
 
-    public String getCard_number() {
-        return card_number;
-    }
-
-    public void setCard_number(String card_number) {
-        this.card_number = card_number;
-    }
 }

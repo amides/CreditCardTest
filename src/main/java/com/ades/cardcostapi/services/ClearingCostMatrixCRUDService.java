@@ -5,9 +5,14 @@ import com.ades.cardcostapi.domain.ClearingCostRecord;
 import java.util.List;
 
 public interface ClearingCostMatrixCRUDService {
-    public abstract void createClearingCostRecord(ClearingCostRecord clearingCostRecord);
-    public abstract void updateClearingCostRecord(Long id, ClearingCostRecord clearingCostRecord);
-    public abstract void deleteClearingCostRecord(Long id);
-    public abstract List<ClearingCostRecord> getClearingCostRecord();
-    public abstract ClearingCostRecord getClearingCostRecordById(Long id);
+
+    void createClearingCostRecord(ClearingCostRecord clearingCostRecord);
+
+    void updateClearingCostRecord(Long id, ClearingCostRecord clearingCostRecord);
+
+    void deleteClearingCostRecord(Long id);
+
+    List<ClearingCostRecord> getClearingCostRecord();
+
+    ClearingCostRecord getClearingCostRecordById(Long id);
 }

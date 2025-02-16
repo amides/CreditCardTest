@@ -4,6 +4,7 @@ import com.ades.cardcostapi.controllers.ClearingCostController;
 import com.ades.cardcostapi.model.ClearingCostMatrixDAO;
 import com.ades.cardcostapi.model.ClearingCostMatrixRepository;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -43,10 +44,13 @@ public class CardCostApiApplicationTests {
 
        clearingCostMatrixRepository.deleteAll();
 
-        ClearingCostMatrixDAO record = new ClearingCostMatrixDAO("US", 5.0f);
+        ClearingCostMatrixDAO record = new ClearingCostMatrixDAO();
+        record.setClearingCost(5.0f);
+        record.setCardIssuingCountryCode("US");
+
         clearingCostMatrixRepository.save(record);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/clearing-cost-matrix")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/clearing")
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
@@ -59,15 +63,23 @@ public class CardCostApiApplicationTests {
 
         clearingCostMatrixRepository.deleteAll();
 
-        ClearingCostMatrixDAO record = new ClearingCostMatrixDAO("US", 5.0f);
-        ClearingCostMatrixDAO record1 = new ClearingCostMatrixDAO("GR", 15.0f);
-        ClearingCostMatrixDAO record2 = new ClearingCostMatrixDAO("Others", 10.0f);
+        ClearingCostMatrixDAO record = new ClearingCostMatrixDAO();
+        record.setCardIssuingCountryCode("US");
+        record.setClearingCost(5.0f);
+
+        ClearingCostMatrixDAO record1 = new ClearingCostMatrixDAO();
+        record1.setCardIssuingCountryCode("GR");
+        record1.setClearingCost(15.0f);
+
+        ClearingCostMatrixDAO record2 = new ClearingCostMatrixDAO();
+        record2.setCardIssuingCountryCode("Others");
+        record2.setClearingCost(10.0f);
 
         clearingCostMatrixRepository.save(record);
         clearingCostMatrixRepository.save(record1);
         clearingCostMatrixRepository.save(record2);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/payment-cards-cost")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/payment")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content("{\n" +
                         "    \"card_number\": \"45101440\"\n" +

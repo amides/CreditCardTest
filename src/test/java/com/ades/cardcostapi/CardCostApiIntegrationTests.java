@@ -48,9 +48,17 @@ class CardCostApiIntegrationTests {
 
     @BeforeEach
     public void setUp() {
-        ClearingCostMatrixDAO clearingCostMatrixDAO = new ClearingCostMatrixDAO("US", 5.0f);
-        ClearingCostMatrixDAO clearingCostMatrixDAO1 = new ClearingCostMatrixDAO("GR", 15.0f);
-        ClearingCostMatrixDAO clearingCostMatrixDAO2 = new ClearingCostMatrixDAO("CA", 100.0f);
+        ClearingCostMatrixDAO clearingCostMatrixDAO = new ClearingCostMatrixDAO();
+        clearingCostMatrixDAO.setClearingCost(5.0f);
+        clearingCostMatrixDAO.setCardIssuingCountryCode("US");
+
+        ClearingCostMatrixDAO clearingCostMatrixDAO1 = new ClearingCostMatrixDAO();
+        clearingCostMatrixDAO1.setClearingCost(15.0f);
+        clearingCostMatrixDAO1.setCardIssuingCountryCode("GR");
+
+        ClearingCostMatrixDAO clearingCostMatrixDAO2 = new ClearingCostMatrixDAO();
+        clearingCostMatrixDAO2.setClearingCost(100.0f);
+        clearingCostMatrixDAO2.setCardIssuingCountryCode("CA");
 
         List<ClearingCostMatrixDAO> result = new ArrayList<>();
         result.add(clearingCostMatrixDAO);

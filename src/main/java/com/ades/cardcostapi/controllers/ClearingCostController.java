@@ -24,8 +24,8 @@ public class ClearingCostController {
     }
 
     @PostMapping
-    public void newClearingCostMatrix(@Valid @RequestBody ClearingCostRecord record) {
-        clearingCostMatrixCRUDService.createClearingCostRecord(record);
+    public ClearingCostRecord createNewClearingCostMatrix(@Valid @RequestBody ClearingCostRecord record) {
+        return clearingCostMatrixCRUDService.createClearingCostRecord(record);
     }
 
     @GetMapping("/{id}")

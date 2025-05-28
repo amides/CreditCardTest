@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ClearingCostMatrixCRUDService {
 
-    void createClearingCostRecord(ClearingCostRecord clearingCostRecord);
+    ClearingCostRecord createClearingCostRecord(ClearingCostRecord clearingCostRecord);
 
     void updateClearingCostRecord(Long id, ClearingCostRecord clearingCostRecord);
 

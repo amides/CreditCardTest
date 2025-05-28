@@ -1,7 +1,9 @@
 package com.ades.cardcostapi.error_handling;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+@Getter
 public enum BusinessExceptionReason implements BusinessExceptionPolicy {
 
     CARD_RECORD_NOT_FOUND_BY_EXT_REF("CardRecord not found based on the given external reference", HttpStatus.NOT_FOUND);
@@ -15,15 +17,4 @@ public enum BusinessExceptionReason implements BusinessExceptionPolicy {
         this.httpStatus = httpStatus;
     }
 
-    public HttpStatus getHttpStatus(){
-        return httpStatus;
-    };
-
-    public String getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }

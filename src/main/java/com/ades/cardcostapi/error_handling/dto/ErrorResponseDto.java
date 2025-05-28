@@ -3,8 +3,11 @@ package com.ades.cardcostapi.error_handling.dto;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
+@Setter
+@Getter
 @Data
 @AllArgsConstructor
 public class ErrorResponseDto {
@@ -15,7 +18,13 @@ public class ErrorResponseDto {
     private LocalDateTime timestamp;
     private List<InvalidParameterDto> invalidParamerList;
 
-    public ErrorResponseDto(){}
+    public ErrorResponseDto(){
+        this.code = "";
+        this.message = "";
+        this.status = 0;
+        this.timestamp = LocalDateTime.now();
+        this.invalidParamerList = new ArrayList<>();
+    }
 
     public ErrorResponseDto(String code, String message,
                      Integer status) {
@@ -24,43 +33,4 @@ public class ErrorResponseDto {
         this.status = status;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
-
-    public List<InvalidParameterDto> getInvalidParamerList() {
-        return invalidParamerList;
-    }
-
-    public void setInvalidParamerList(List<InvalidParameterDto> invalidParamerList) {
-        this.invalidParamerList = invalidParamerList;
-    }
 }

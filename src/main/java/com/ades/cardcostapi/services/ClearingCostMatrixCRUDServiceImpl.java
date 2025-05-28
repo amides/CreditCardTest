@@ -26,19 +26,25 @@ public class ClearingCostMatrixCRUDServiceImpl implements ClearingCostMatrixCRUD
     }
 
     @Override
-    public void createClearingCostRecord(ClearingCostRecord clearingCostRecord) throws IllegalArgumentException {
+    public ClearingCostRecord createClearingCostRecord(ClearingCostRecord clearingCostRecord) throws IllegalArgumentException {
 
         if (!ISO_COUNTRIES.contains(clearingCostRecord.getIssuingCountry())) {
             logger.info("createClearingCostRecord: Invalid issuing country: {}", clearingCostRecord.getIssuingCountry());
             throw new BusinessException(BusinessExceptionReason.CARD_RECORD_NOT_FOUND_BY_EXT_REF,
                     "Invalid issuing country: " + clearingCostRecord.getIssuingCountry());
-
         }
+
         ClearingCostMatrixDAO clearingCostMatrixDAO = new ClearingCostMatrixDAO();
         clearingCostMatrixDAO.setClearingCost(clearingCostRecord.getCost());
         clearingCostMatrixDAO.setCardIssuingCountryCode(clearingCostRecord.getIssuingCountry());
-
         clearingCostMatrixRepository.save(clearingCostMatrixDAO);
+
+        ClearingCostRecord record = new ClearingCostRecord();
+        record.setCost(clearingCostRecord.getCost());
+        record.setIssuingCountry(clearingCostRecord.getIssuingCountry());
+        record.setId(clearingCostMatrixDAO.getId());
+
+        return record;
     }
 
     @Override

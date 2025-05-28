@@ -22,9 +22,19 @@ public class ApplicationException  extends RuntimeException implements Exception
         this.code = reason.getCode();
     }
 
+    public ApplicationException(final UnexistantCostMatrixExceptionReason reason, final Object... parameters) {
+        if (parameters != null) {
+            this.message = format(reason.getMessage(), parameters);
+        } else {
+            this.message = reason.getMessage();
+        }
+
+        this.code = reason.getCode();
+    }
+
     @Override
     public String getLocalizedMessage() {
-        return getMessage();
+        return message;
     }
 
     public String toString() {

@@ -1,18 +1,17 @@
 package com.ades.cardcostapi.services;
 
 import com.ades.cardcostapi.domain.ClearingCostRecord;
+import com.ades.cardcostapi.error_handling.ApplicationException;
 import com.ades.cardcostapi.error_handling.BusinessException;
 import com.ades.cardcostapi.error_handling.BusinessExceptionReason;
+import com.ades.cardcostapi.error_handling.UnexistantCostMatrixExceptionReason;
 import com.ades.cardcostapi.model.ClearingCostMatrixDAO;
 import com.ades.cardcostapi.model.ClearingCostMatrixRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ClearingCostMatrixCRUDServiceImpl implements ClearingCostMatrixCRUDService {
@@ -48,7 +47,7 @@ public class ClearingCostMatrixCRUDServiceImpl implements ClearingCostMatrixCRUD
     }
 
     @Override
-    public void updateClearingCostRecord(Long id, ClearingCostRecord newClearingCostRecord) {
+    public ClearingCostRecord updateClearingCostRecord(Long id, ClearingCostRecord newClearingCostRecord) {
 
         if (!ISO_COUNTRIES.contains(newClearingCostRecord.getIssuingCountry())
                 && !newClearingCostRecord.getIssuingCountry().equals("Others"))
@@ -59,7 +58,7 @@ public class ClearingCostMatrixCRUDServiceImpl implements ClearingCostMatrixCRUD
         }
 
 
-        clearingCostMatrixRepository.findById(id)//
+        ClearingCostMatrixDAO dao = clearingCostMatrixRepository.findById(id)
                 .map(clearingCostMatrixDAO -> {
                     clearingCostMatrixDAO.setCardIssuingCountryCode(newClearingCostRecord.getIssuingCountry());
                     clearingCostMatrixDAO.setClearingCost(newClearingCostRecord.getCost());
@@ -70,10 +69,24 @@ public class ClearingCostMatrixCRUDServiceImpl implements ClearingCostMatrixCRUD
                     clearingCostMatrixDAO.setCardIssuingCountryCode(newClearingCostRecord.getIssuingCountry());
                     return clearingCostMatrixRepository.save(clearingCostMatrixDAO);
                 });
+
+        ClearingCostRecord record = new ClearingCostRecord();
+        record.setId(dao.getId());
+        record.setCost(dao.getClearingCost());
+        record.setIssuingCountry(dao.getCardIssuingCountryCode());
+
+        return record;
     }
 
     @Override
     public void deleteClearingCostRecord(Long id) {
+        ClearingCostMatrixDAO dao = clearingCostMatrixRepository.findById(id).orElse(null);
+        if (dao == null) {
+            logger.info("deleteClearingCostRecord: Invalid id: {}", id);
+            throw new ApplicationException(UnexistantCostMatrixExceptionReason.COST_MATRIX_NOT_EXISTS,
+                    "deleteClearingCostRecord: ClearingCostMatrixDAO with id:" + id + " doesn't exist");
+        }
+
         clearingCostMatrixRepository.deleteById(id);
     }
 

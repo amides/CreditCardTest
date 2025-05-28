@@ -9,11 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClearingCostRecord {
-
     private Long id;
-
     private String issuingCountry;
-
     private float cost;
-
 }

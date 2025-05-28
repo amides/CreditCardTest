@@ -1,5 +1,7 @@
 package com.ades.cardcostapi.controllers;
 
+import com.ades.cardcostapi.controllers.dtos.MessageData;
+import com.ades.cardcostapi.controllers.dtos.SuccessfulResponseDTO;
 import com.ades.cardcostapi.services.ClearingCostMatrixCRUDService;
 import com.ades.cardcostapi.domain.ClearingCostRecord;
 import jakarta.validation.Valid;
@@ -34,13 +36,14 @@ public class ClearingCostController {
     }
 
     @PutMapping("/{id}")
-    void updateClearingCostMatrix(@PathVariable Long id, @Valid @RequestBody ClearingCostRecord record) {
-        clearingCostMatrixCRUDService.updateClearingCostRecord(id, record);
+    ClearingCostRecord updateClearingCostMatrix(@PathVariable Long id, @Valid @RequestBody ClearingCostRecord record) {
+        return clearingCostMatrixCRUDService.updateClearingCostRecord(id, record);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteClearingCostMatrix(@Valid @PathVariable Long id) {
+    public SuccessfulResponseDTO deleteClearingCostMatrix(@Valid @PathVariable Long id) {
         clearingCostMatrixCRUDService.deleteClearingCostRecord(id);
+        MessageData message = new MessageData("Clearing cost matrix deleted");
+        return new SuccessfulResponseDTO(message);
     }
-
 }

@@ -32,5 +32,4 @@ public class ErrorResponseDto {
         this.message = message;
         this.status = status;
     }
-
 }

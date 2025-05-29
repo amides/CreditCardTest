@@ -33,7 +33,8 @@ public class GlobalApiExceptionHandler
     }
 
     @ExceptionHandler({BusinessException.class})
-    public ResponseEntity<Object> handleCustomUncaughtBusinessException(final BusinessException ex, final ServletWebRequest request) {
+    public ResponseEntity<Object> handleCustomUncaughtBusinessException(final BusinessException ex,
+                                                                        final ServletWebRequest request) {
         logger.error(ex.getMessage(), request.toString());
 
         final ErrorResponseDto errorResponseDto = new ErrorResponseDto();

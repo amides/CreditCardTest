@@ -2,9 +2,9 @@ package com.ades.cardcostapi.services;
 
 import com.ades.cardcostapi.domain.ClearingCostRecord;
 import com.ades.cardcostapi.error_handling.ApplicationException;
+import com.ades.cardcostapi.error_handling.ApplicationExceptionReason;
 import com.ades.cardcostapi.error_handling.BusinessException;
 import com.ades.cardcostapi.error_handling.BusinessExceptionReason;
-import com.ades.cardcostapi.error_handling.UnexistantCostMatrixExceptionReason;
 import com.ades.cardcostapi.model.ClearingCostMatrixDAO;
 import com.ades.cardcostapi.model.ClearingCostMatrixRepository;
 import org.slf4j.Logger;
@@ -83,7 +83,7 @@ public class ClearingCostMatrixCRUDServiceImpl implements ClearingCostMatrixCRUD
         ClearingCostMatrixDAO dao = clearingCostMatrixRepository.findById(id).orElse(null);
         if (dao == null) {
             logger.info("deleteClearingCostRecord: Invalid id: {}", id);
-            throw new ApplicationException(UnexistantCostMatrixExceptionReason.COST_MATRIX_NOT_EXISTS,
+            throw new ApplicationException(ApplicationExceptionReason.COST_MATRIX_NOT_EXISTS,
                     "deleteClearingCostRecord: ClearingCostMatrixDAO with id:" + id + " doesn't exist");
         }
 

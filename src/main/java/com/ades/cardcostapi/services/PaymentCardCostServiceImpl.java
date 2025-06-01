@@ -4,24 +4,19 @@ import com.ades.cardcostapi.domain.BinResponse;
 import com.ades.cardcostapi.domain.PaymentCardCostResponse;
 import com.ades.cardcostapi.model.ClearingCostMatrixDAO;
 import com.ades.cardcostapi.model.ClearingCostMatrixRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class PaymentCardCostServiceImpl implements PaymentCardCostService {
 
-    private static final Logger log = LoggerFactory.getLogger(PaymentCardCostServiceImpl.class);
     private final LookUpBinService lookUpBinService;
     private final ClearingCostMatrixRepository clearingCostMatrixRepository;
-
-    public PaymentCardCostServiceImpl( LookUpBinService lookUpBinService,
-                                       ClearingCostMatrixRepository clearingCostMatrixRepository) {
-        this.lookUpBinService = lookUpBinService;
-        this.clearingCostMatrixRepository = clearingCostMatrixRepository;
-    }
 
     @Override
     public PaymentCardCostResponse getPaymentCardCost(String card_number) {
@@ -50,7 +45,7 @@ public class PaymentCardCostServiceImpl implements PaymentCardCostService {
         }
 
         PaymentCardCostResponse response = new PaymentCardCostResponse();
-        response.setCost(clearingRecords.get(0).getClearingCost());
+        response.setCost(clearingRecords.getFirst().getClearingCost());
         response.setCountry(binResponse.getCountry().getCountryCode());
 
         return response;
@@ -60,16 +55,14 @@ public class PaymentCardCostServiceImpl implements PaymentCardCostService {
         if (str == null || str.isEmpty()) {
             return false;
         }
-        else {
 
-            try {
-                Long value = Long.parseLong(str);
-            }
-            catch (NumberFormatException e) {
-                return false;
-            }
-
-            return true;
+        try {
+            Long value = Long.parseLong(str);
         }
+        catch (NumberFormatException e) {
+            return false;
+        }
+
+        return true;
     }
 }

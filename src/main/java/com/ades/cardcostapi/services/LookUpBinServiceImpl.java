@@ -1,8 +1,8 @@
 package com.ades.cardcostapi.services;
 
 import com.ades.cardcostapi.domain.BinResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -10,16 +10,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class LookUpBinServiceImpl implements LookUpBinService {
 
-    private static final Logger log = LoggerFactory.getLogger(LookUpBinServiceImpl.class);
     private final RestTemplate restTemplate;
-    private final Map<String, BinResponse> binResponsesMapCache;
-
-    public LookUpBinServiceImpl(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-        binResponsesMapCache = new HashMap<>();
-    }
+    private final Map<String, BinResponse> binResponsesMapCache = new HashMap<>();
 
     @Override
     public BinResponse getTheCountryCode(String card_number) {

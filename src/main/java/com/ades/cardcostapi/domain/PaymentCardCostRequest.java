@@ -7,7 +7,5 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentCardCostRequest implements Serializable {
-
     private String card_number;
-
 }

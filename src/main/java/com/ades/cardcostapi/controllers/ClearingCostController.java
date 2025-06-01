@@ -6,19 +6,17 @@ import com.ades.cardcostapi.services.ClearingCostMatrixCRUDService;
 import com.ades.cardcostapi.domain.ClearingCostRecord;
 import jakarta.validation.Valid;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/clearing")
+@RequiredArgsConstructor
 public class ClearingCostController {
 
     private final ClearingCostMatrixCRUDService clearingCostMatrixCRUDService;
-
-    public ClearingCostController(ClearingCostMatrixCRUDService clearingCostMatrixCRUDService) {
-        this.clearingCostMatrixCRUDService = clearingCostMatrixCRUDService;
-    }
 
     @GetMapping
     public List<ClearingCostRecord> allClearingCostMatrix() {

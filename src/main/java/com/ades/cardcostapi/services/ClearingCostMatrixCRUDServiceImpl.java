@@ -7,28 +7,24 @@ import com.ades.cardcostapi.error_handling.BusinessException;
 import com.ades.cardcostapi.error_handling.BusinessExceptionReason;
 import com.ades.cardcostapi.model.ClearingCostMatrixDAO;
 import com.ades.cardcostapi.model.ClearingCostMatrixRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class ClearingCostMatrixCRUDServiceImpl implements ClearingCostMatrixCRUDService {
 
     private static final Set<String> ISO_COUNTRIES = Set.of(Locale.getISOCountries());
     private final ClearingCostMatrixRepository clearingCostMatrixRepository;
-    private static final Logger logger = LoggerFactory.getLogger(ClearingCostMatrixCRUDServiceImpl.class);
-
-    public ClearingCostMatrixCRUDServiceImpl(ClearingCostMatrixRepository clearingCostMatrixRepository) {
-        this.clearingCostMatrixRepository = clearingCostMatrixRepository;
-    }
 
     @Override
     public ClearingCostRecord createClearingCostRecord(ClearingCostRecord clearingCostRecord) throws IllegalArgumentException {
 
         if (!ISO_COUNTRIES.contains(clearingCostRecord.getIssuingCountry())) {
-            logger.info("createClearingCostRecord: Invalid issuing country: {}", clearingCostRecord.getIssuingCountry());
+            log.info("createClearingCostRecord: Invalid issuing country: {}", clearingCostRecord.getIssuingCountry());
             throw new BusinessException(BusinessExceptionReason.CARD_RECORD_NOT_FOUND_BY_EXT_REF,
                     "Invalid issuing country: " + clearingCostRecord.getIssuingCountry());
         }
@@ -52,7 +48,7 @@ public class ClearingCostMatrixCRUDServiceImpl implements ClearingCostMatrixCRUD
         if (!ISO_COUNTRIES.contains(newClearingCostRecord.getIssuingCountry())
                 && !newClearingCostRecord.getIssuingCountry().equals("Others"))
         {
-            logger.info("updateClearingCostRecord: Invalid issuing country: {}", newClearingCostRecord.getIssuingCountry());
+            log.info("updateClearingCostRecord: Invalid issuing country: {}", newClearingCostRecord.getIssuingCountry());
             throw new BusinessException(BusinessExceptionReason.CARD_RECORD_NOT_FOUND_BY_EXT_REF,
                     "Invalid issuing country: " + newClearingCostRecord.getIssuingCountry());
         }
@@ -82,7 +78,7 @@ public class ClearingCostMatrixCRUDServiceImpl implements ClearingCostMatrixCRUD
     public void deleteClearingCostRecord(Long id) {
         ClearingCostMatrixDAO dao = clearingCostMatrixRepository.findById(id).orElse(null);
         if (dao == null) {
-            logger.info("deleteClearingCostRecord: Invalid id: {}", id);
+            log.info("deleteClearingCostRecord: Invalid id: {}", id);
             throw new ApplicationException(ApplicationExceptionReason.COST_MATRIX_NOT_EXISTS,
                     "deleteClearingCostRecord: ClearingCostMatrixDAO with id:" + id + " doesn't exist");
         }
@@ -111,7 +107,7 @@ public class ClearingCostMatrixCRUDServiceImpl implements ClearingCostMatrixCRUD
     public ClearingCostRecord getClearingCostRecordById(Long id) {
         ClearingCostMatrixDAO record = clearingCostMatrixRepository.findById(id).orElse(null);
         if (record == null) {
-            logger.info("getClearingCostRecordById: ClearingCostMatrixDAO with id: {} doesn't exist", id);
+            log.info("getClearingCostRecordById: ClearingCostMatrixDAO with id: {} doesn't exist", id);
             throw new BusinessException(BusinessExceptionReason.CARD_RECORD_NOT_FOUND_BY_EXT_REF,
                     "getClearingCostRecordById: ClearingCostMatrixDAO with id:" + id + " doesn't exist");
         }

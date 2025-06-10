@@ -7,6 +7,8 @@ import com.ades.cardcostapi.domain.ClearingCostRecord;
 import jakarta.validation.Valid;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,29 +21,29 @@ public class ClearingCostController {
     private final ClearingCostMatrixCRUDService clearingCostMatrixCRUDService;
 
     @GetMapping
-    public List<ClearingCostRecord> allClearingCostMatrix() {
-        return clearingCostMatrixCRUDService.getClearingCostRecord();
+    public ResponseEntity<List<ClearingCostRecord>> allClearingCostMatrix() {
+        return new ResponseEntity<>(clearingCostMatrixCRUDService.getClearingCostRecord(), HttpStatus.OK);
     }
 
     @PostMapping
-    public ClearingCostRecord createNewClearingCostMatrix(@Valid @RequestBody ClearingCostRecord record) {
-        return clearingCostMatrixCRUDService.createClearingCostRecord(record);
+    public ResponseEntity<ClearingCostRecord> createNewClearingCostMatrix(@Valid @RequestBody ClearingCostRecord record) {
+        return new ResponseEntity<>(clearingCostMatrixCRUDService.createClearingCostRecord(record), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    ClearingCostRecord oneClearingCostMatrix(@PathVariable Long id) {
-        return clearingCostMatrixCRUDService.getClearingCostRecordById(id);
+    ResponseEntity<ClearingCostRecord> oneClearingCostMatrix(@PathVariable Long id) {
+        return new ResponseEntity<>(clearingCostMatrixCRUDService.getClearingCostRecordById(id), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    ClearingCostRecord updateClearingCostMatrix(@PathVariable Long id, @Valid @RequestBody ClearingCostRecord record) {
-        return clearingCostMatrixCRUDService.updateClearingCostRecord(id, record);
+    ResponseEntity<ClearingCostRecord> updateClearingCostMatrix(@PathVariable Long id, @Valid @RequestBody ClearingCostRecord record) {
+        return new ResponseEntity<>(clearingCostMatrixCRUDService.updateClearingCostRecord(id,record), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public SuccessfulResponseDTO deleteClearingCostMatrix(@Valid @PathVariable Long id) {
+    public ResponseEntity<SuccessfulResponseDTO> deleteClearingCostMatrix(@Valid @PathVariable Long id) {
         clearingCostMatrixCRUDService.deleteClearingCostRecord(id);
         MessageData message = new MessageData("Clearing cost matrix deleted");
-        return new SuccessfulResponseDTO(message);
+        return new ResponseEntity<>(new SuccessfulResponseDTO(message), HttpStatus.OK);
     }
 }

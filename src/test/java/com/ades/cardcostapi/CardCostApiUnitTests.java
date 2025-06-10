@@ -23,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class CardCostApiIntegrationTests {
+class CardCostApiUnitTests {
 
     @MockitoBean
     ClearingCostMatrixRepository clearingCostMatrixRepository;
@@ -37,7 +37,7 @@ class CardCostApiIntegrationTests {
         static private ClearingCostMatrixRepository repository;
 
         ClearingCostMatrixCrudServiceImplTestContextConfig(ClearingCostMatrixRepository repository){
-            this.repository = repository;
+            ClearingCostMatrixCrudServiceImplTestContextConfig.repository = repository;
         }
 
         @Bean
